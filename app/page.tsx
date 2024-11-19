@@ -21,9 +21,17 @@ export default function Home() {
     },
   ];
 
+  const calculateDifference = () => {
+    const currentAnswer = parseInt(data[currentQuestionIndex].answer);
+    const difference = Math.abs(selectedValue - currentAnswer);
+    setRemainingPercent((prev) => prev - difference);
+  };
+
   const handleNextQuestion = () => {
+    calculateDifference();
     if (currentQuestionIndex < data.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setSelectedValue(50);
     }
   };
 
