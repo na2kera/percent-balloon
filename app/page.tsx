@@ -29,6 +29,13 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-8 bg-gradient-to-b from-blue-400 to-blue-600">
+      {/* 残りのパーセントを表示 */}
+      <div className="text-pink-500 font-bold whitespace-nowrap">
+        残り
+        <br />
+        {remainingPercent}%
+      </div>
+
       {/* クイズ質問パネル */}
       <div className="bg-white rounded-lg p-6 shadow-lg max-w-2xl w-full mb-8">
         <div className="flex items-center gap-4">
