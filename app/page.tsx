@@ -3,6 +3,8 @@ import { useState } from "react";
 
 export default function Home() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [remainingPercent, setRemainingPercent] = useState(100);
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const data = [
     {
       question: "いちご狩りをしたことがある人は何%？",
@@ -51,7 +53,7 @@ export default function Home() {
           <div className="text-pink-500 font-bold">
             残り
             <br />
-            100
+            {remainingPercent}%
           </div>
         </div>
 
