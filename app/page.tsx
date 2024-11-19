@@ -45,6 +45,11 @@ export default function Home() {
             100
           </div>
         </div>
+
+        {/* 回答ボタンを追加 */}
+        <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200">
+          回答する
+        </button>
       </div>
     </div>
   );
