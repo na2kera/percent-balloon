@@ -26,13 +26,14 @@ export default function Home() {
     },
   ];
 
-  // 差分を計算する関数
+  // 差分を計算する関数を修正
   const calculateDifference = () => {
     const currentAnswer = parseInt(
       data[currentQuestionIndex].answer.replace("%", "")
     );
     const difference = Math.abs(selectedValue - currentAnswer);
-    const targetPercent = remainingPercent - difference;
+    // 0未満にならないように制限
+    const targetPercent = Math.max(0, remainingPercent - difference);
 
     // 残りパーセントのアニメーション
     const startValue = remainingPercent;
@@ -47,7 +48,8 @@ export default function Home() {
         const currentValue = Math.floor(
           startValue - (startValue - targetPercent) * progress
         );
-        setAnimatingPercent(currentValue);
+        // アニメーション中も0未満にならないように制限
+        setAnimatingPercent(Math.max(0, currentValue));
         requestAnimationFrame(animatePercent);
       } else {
         setAnimatingPercent(targetPercent);
@@ -165,7 +167,7 @@ export default function Home() {
       <div className="bg-white/90 rounded-lg p-4 shadow-md mb-4 text-center">
         <div className="text-gray-600 text-lg mb-1">残り</div>
         <div className="text-pink-500 font-bold text-4xl">
-          {Math.floor(animatingPercent)}%
+          {Math.max(0, Math.floor(animatingPercent))}%
         </div>
       </div>
 
