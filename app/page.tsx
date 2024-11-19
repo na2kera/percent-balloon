@@ -21,9 +21,11 @@ export default function Home() {
     },
   ];
 
-  // 差分を計算する関数を追加
+  // 差分を計算する関数
   const calculateDifference = () => {
-    const currentAnswer = parseInt(data[currentQuestionIndex].answer);
+    const currentAnswer = parseInt(
+      data[currentQuestionIndex].answer.replace("%", "")
+    );
     const difference = Math.abs(selectedValue - currentAnswer);
     setRemainingPercent((prev) => prev - difference);
   };
@@ -31,6 +33,7 @@ export default function Home() {
   // handleNextQuestion を更新
   const handleNextQuestion = () => {
     calculateDifference(); // 差分を計算
+
     if (currentQuestionIndex < data.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setSelectedValue(50); // スライダーを初期値に戻す
