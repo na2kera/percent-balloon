@@ -10,6 +10,7 @@ export default function Home() {
   const [isAnimating, setIsAnimating] = useState(false);
   const animationRef = useRef<number>();
   const [animatingPercent, setAnimatingPercent] = useState(100);
+  const [userAnswer, setUserAnswer] = useState<number | null>(null);
   const data = [
     {
       question: "いちご狩りをしたことがある人は何%？",
@@ -106,6 +107,7 @@ export default function Home() {
   // handleNextQuestion を修正
   const handleNextQuestion = () => {
     if (!showAnswer && !isAnimating) {
+      setUserAnswer(selectedValue);
       setIsAnimating(true);
       animateSlider();
     } else {
@@ -113,6 +115,7 @@ export default function Home() {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
         setSelectedValue(50);
         setShowAnswer(false);
+        setUserAnswer(null);
       } else if (currentQuestionIndex === data.length - 1) {
         setShowResult(true);
       }
@@ -196,7 +199,7 @@ export default function Home() {
       <div className="bg-white rounded-lg p-6 shadow-lg max-w-2xl w-full">
         <div className="flex items-center gap-4 mb-4">
           <div className="text-2xl font-bold">{selectedValue}%</div>
-          <div className="flex-1">
+          <div className="flex-1 relative">
             <input
               type="range"
               min="0"
@@ -218,6 +221,20 @@ export default function Home() {
               [&::-webkit-slider-thumb]:shadow-lg
               ${isAnimating ? "cursor-not-allowed" : "cursor-pointer"}`}
             />
+            {/* ユーザーの回答マーカー */}
+            {userAnswer !== null && (
+              <div
+                className="absolute top-0 w-1 h-8 bg-blue-500"
+                style={{
+                  left: `${userAnswer}%`,
+                  transform: "translateX(-50%)",
+                }}
+              >
+                <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-sm font-bold text-blue-500">
+                  {userAnswer}%
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
