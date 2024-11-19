@@ -4,8 +4,8 @@ import { useState } from "react";
 export default function Home() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [remainingPercent, setRemainingPercent] = useState(100);
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [selectedValue, setSelectedValue] = useState(50);
+  const [showAnswer, setShowAnswer] = useState(false);
   const data = [
     {
       question: "いちご狩りをしたことがある人は何%？",
@@ -30,13 +30,19 @@ export default function Home() {
     setRemainingPercent((prev) => prev - difference);
   };
 
-  // handleNextQuestion を更新
+  // handleNextQuestion を修正
   const handleNextQuestion = () => {
-    calculateDifference(); // 差分を計算
-
-    if (currentQuestionIndex < data.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setSelectedValue(50); // スライダーを初期値に戻す
+    if (!showAnswer) {
+      // 回答を表示する
+      calculateDifference();
+      setShowAnswer(true);
+    } else {
+      // 次の問題へ進む
+      if (currentQuestionIndex < data.length - 1) {
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
+        setSelectedValue(50);
+        setShowAnswer(false); // 回答表示をリセット
+      }
     }
   };
 
@@ -53,10 +59,24 @@ export default function Home() {
       <div className="bg-white rounded-lg p-6 shadow-lg max-w-2xl w-full mb-8">
         <div className="flex items-center gap-4">
           <div>
-            <div className="text-lg font-bold mb-2">
-              {data[currentQuestionIndex].answer}
+            <div className="text-xl mb-2">
+              {data[currentQuestionIndex].question}
             </div>
-            <div className="text-xl">{data[currentQuestionIndex].question}</div>
+            {showAnswer && (
+              <div className="text-lg font-bold text-blue-600">
+                正解: {data[currentQuestionIndex].answer}
+                <div className="text-red-500">
+                  差:{" "}
+                  {Math.abs(
+                    selectedValue -
+                      parseInt(
+                        data[currentQuestionIndex].answer.replace("%", "")
+                      )
+                  )}
+                  %
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -94,9 +114,13 @@ export default function Home() {
         <button
           onClick={handleNextQuestion}
           className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
-          disabled={currentQuestionIndex === data.length - 1}
+          disabled={currentQuestionIndex === data.length - 1 && showAnswer}
         >
-          {currentQuestionIndex === data.length - 1 ? "終了" : "回答する"}
+          {currentQuestionIndex === data.length - 1 && showAnswer
+            ? "終了"
+            : showAnswer
+            ? "次へ"
+            : "回答する"}
         </button>
       </div>
     </div>
