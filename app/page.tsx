@@ -230,7 +230,9 @@ export default function Home() {
 
         <button
           onClick={handleNextQuestion}
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
+          disabled={isAnimating}
+          className={`w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200
+            ${isAnimating ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           {currentQuestionIndex === data.length - 1 && showAnswer
             ? "結果を表示"
