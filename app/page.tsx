@@ -54,8 +54,8 @@ export default function Home() {
               onChange={(e) => setSelectedValue(parseInt(e.target.value))}
               className="w-full h-8 rounded-full appearance-none bg-gradient-to-r from-yellow-400 to-red-500 cursor-pointer
               [&::-webkit-slider-thumb]:appearance-none
-              [&::-webkit-slider-thumb]:h-8
-              [&::-webkit-slider-thumb]:w-8
+              [&::-webkit-slider-thumb]:h-12
+              [&::-webkit-slider-thumb]:w-4
               [&::-webkit-slider-thumb]:rounded-full
               [&::-webkit-slider-thumb]:bg-white
               [&::-webkit-slider-thumb]:border-2
