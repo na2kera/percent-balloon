@@ -5,6 +5,7 @@ export default function Home() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [remainingPercent, setRemainingPercent] = useState(100);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [selectedValue, setSelectedValue] = useState(50);
   const data = [
     {
       question: "いちご狩りをしたことがある人は何%？",
@@ -43,17 +44,30 @@ export default function Home() {
       {/* 投票結果バー */}
       <div className="bg-white rounded-lg p-6 shadow-lg max-w-2xl w-full">
         <div className="flex items-center gap-4 mb-4">
-          <div className="text-2xl font-bold">23%</div>
-          <div
-            className="flex-1 h-8 bg-gradient-to-r from-yellow-400 to-red-500 rounded-full"
-            style={{ width: "23%" }}
-          >
-            <div className="h-full w-[1px] bg-blue-500"></div>
+          <div className="text-2xl font-bold">{selectedValue}%</div>
+          <div className="flex-1">
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={selectedValue}
+              onChange={(e) => setSelectedValue(parseInt(e.target.value))}
+              className="w-full h-8 rounded-full appearance-none bg-gradient-to-r from-yellow-400 to-red-500 cursor-pointer
+              [&::-webkit-slider-thumb]:appearance-none
+              [&::-webkit-slider-thumb]:h-8
+              [&::-webkit-slider-thumb]:w-8
+              [&::-webkit-slider-thumb]:rounded-full
+              [&::-webkit-slider-thumb]:bg-white
+              [&::-webkit-slider-thumb]:border-2
+              [&::-webkit-slider-thumb]:border-blue-500
+              [&::-webkit-slider-thumb]:cursor-pointer
+              [&::-webkit-slider-thumb]:shadow-lg"
+            />
           </div>
-          <div className="text-pink-500 font-bold">
+          <div className="text-pink-500 font-bold whitespace-nowrap">
             残り
             <br />
-            {remainingPercent}%
+            {100 - selectedValue}%
           </div>
         </div>
 
