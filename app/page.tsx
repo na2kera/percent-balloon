@@ -17,7 +17,7 @@ export default function Home() {
       answer: "23%",
     },
     {
-      question: "すいませんけど吸います人は何%？",
+      question: "すいませんけど吸いますって人は何%？",
       answer: "10%",
     },
     {
