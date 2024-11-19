@@ -1,17 +1,30 @@
 export default function Home() {
+  const data = [
+    {
+      question: "いちご狩りをしたことがある人は何%？",
+      answer: "23%",
+    },
+    {
+      question: "すいませんけどすいます人は何%？",
+      answer: "10%",
+    },
+    {
+      question: "居酒屋で皿あーらいする人は何%？",
+      answer: "60%",
+    },
+  ];
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-8 bg-gradient-to-b from-blue-400 to-blue-600">
       {/* クイズ質問パネル */}
       <div className="bg-white rounded-lg p-6 shadow-lg max-w-2xl w-full mb-8">
         <div className="flex items-center gap-4">
-          <img
-            src="/strawberry.jpg"
-            alt="いちご"
-            className="w-24 h-24 object-cover rounded"
-          />
           <div>
-            <div className="text-lg font-bold mb-2">20〜40代</div>
-            <div className="text-xl">いちご狩りをしたことがある人は何%？</div>
+            {data.map((item, index) => (
+              <div key={index}>
+                <div className="text-lg font-bold mb-2">{item.answer}</div>
+                <div className="text-xl">{item.question}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
