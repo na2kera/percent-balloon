@@ -144,18 +144,6 @@ export default function Home() {
               "なかなかの予想力です！"}
             {remainingPercent < 50 && "もう少し頑張りましょう！"}
           </div>
-          <button
-            onClick={() => {
-              setCurrentQuestionIndex(0);
-              setRemainingPercent(100);
-              setSelectedValue(50);
-              setShowAnswer(false);
-              setShowResult(false);
-            }}
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
-          >
-            もう一度プレイ
-          </button>
         </div>
       </div>
     );
@@ -245,7 +233,7 @@ export default function Home() {
           className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
         >
           {currentQuestionIndex === data.length - 1 && showAnswer
-            ? "終了"
+            ? "結果を表示"
             : showAnswer
             ? "次へ"
             : "回答する"}
