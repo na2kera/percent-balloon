@@ -182,7 +182,7 @@ export default function Home() {
                 <div className="text-red-500">
                   差:{" "}
                   {Math.abs(
-                    selectedValue -
+                    userAnswer! -
                       parseInt(
                         data[currentQuestionIndex].answer.replace("%", "")
                       )
