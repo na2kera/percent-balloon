@@ -6,6 +6,7 @@ export default function Home() {
   const [remainingPercent, setRemainingPercent] = useState(100);
   const [selectedValue, setSelectedValue] = useState(50);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [showResult, setShowResult] = useState(false);
   const data = [
     {
       question: "いちご狩りをしたことがある人は何%？",
@@ -33,18 +34,55 @@ export default function Home() {
   // handleNextQuestion を修正
   const handleNextQuestion = () => {
     if (!showAnswer) {
-      // 回答を表示する
       calculateDifference();
       setShowAnswer(true);
     } else {
-      // 次の問題へ進む
       if (currentQuestionIndex < data.length - 1) {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
         setSelectedValue(50);
-        setShowAnswer(false); // 回答表示をリセット
+        setShowAnswer(false);
+      } else if (currentQuestionIndex === data.length - 1) {
+        setShowResult(true);
       }
     }
   };
+
+  if (showResult) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen p-8 bg-gradient-to-b from-blue-400 to-blue-600">
+        <div className="bg-white rounded-lg p-8 shadow-lg max-w-2xl w-full">
+          <h2 className="text-2xl font-bold text-center mb-6">結果発表</h2>
+          <div className="text-center mb-4">
+            <div className="text-4xl font-bold text-blue-600 mb-2">
+              最終スコア
+            </div>
+            <div className="text-6xl font-bold text-pink-500">
+              {remainingPercent}%
+            </div>
+          </div>
+          <div className="text-center text-gray-600 mb-6">
+            {remainingPercent >= 80 && "素晴らしい予想力です！"}
+            {remainingPercent >= 50 &&
+              remainingPercent < 80 &&
+              "なかなかの予想力です！"}
+            {remainingPercent < 50 && "もう少し頑張りましょう！"}
+          </div>
+          <button
+            onClick={() => {
+              setCurrentQuestionIndex(0);
+              setRemainingPercent(100);
+              setSelectedValue(50);
+              setShowAnswer(false);
+              setShowResult(false);
+            }}
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
+          >
+            もう一度プレイ
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-8 bg-gradient-to-b from-blue-400 to-blue-600">
@@ -104,17 +142,11 @@ export default function Home() {
               [&::-webkit-slider-thumb]:shadow-lg"
             />
           </div>
-          <div className="text-pink-500 font-bold whitespace-nowrap">
-            残り
-            <br />
-            {100 - selectedValue}%
-          </div>
         </div>
 
         <button
           onClick={handleNextQuestion}
           className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
-          disabled={currentQuestionIndex === data.length - 1 && showAnswer}
         >
           {currentQuestionIndex === data.length - 1 && showAnswer
             ? "終了"
