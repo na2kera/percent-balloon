@@ -3,6 +3,10 @@ import { useState } from "react";
 
 export default function Home() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [remainingPercent, setRemainingPercent] = useState(100);
+  const [selectedValue, setSelectedValue] = useState(50);
+  const [showAnswer, setShowAnswer] = useState(false);
+  const [showResult, setShowResult] = useState(false);
   const data = [
     {
       question: "いちご狩りをしたことがある人は何%？",
@@ -18,22 +22,99 @@ export default function Home() {
     },
   ];
 
+  // 差分を計算する関数
+  const calculateDifference = () => {
+    const currentAnswer = parseInt(
+      data[currentQuestionIndex].answer.replace("%", "")
+    );
+    const difference = Math.abs(selectedValue - currentAnswer);
+    setRemainingPercent((prev) => prev - difference);
+  };
+
+  // handleNextQuestion を修正
   const handleNextQuestion = () => {
-    if (currentQuestionIndex < data.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    if (!showAnswer) {
+      calculateDifference();
+      setShowAnswer(true);
+    } else {
+      if (currentQuestionIndex < data.length - 1) {
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
+        setSelectedValue(50);
+        setShowAnswer(false);
+      } else if (currentQuestionIndex === data.length - 1) {
+        setShowResult(true);
+      }
     }
   };
 
+  if (showResult) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen p-8 bg-gradient-to-b from-blue-400 to-blue-600">
+        <div className="bg-white rounded-lg p-8 shadow-lg max-w-2xl w-full">
+          <h2 className="text-2xl font-bold text-center mb-6">結果発表</h2>
+          <div className="text-center mb-4">
+            <div className="text-4xl font-bold text-blue-600 mb-2">
+              最終スコア
+            </div>
+            <div className="text-6xl font-bold text-pink-500">
+              {remainingPercent}%
+            </div>
+          </div>
+          <div className="text-center text-gray-600 mb-6">
+            {remainingPercent >= 80 && "素晴らしい予想力です！"}
+            {remainingPercent >= 50 &&
+              remainingPercent < 80 &&
+              "なかなかの予想力です！"}
+            {remainingPercent < 50 && "もう少し頑張りましょう！"}
+          </div>
+          <button
+            onClick={() => {
+              setCurrentQuestionIndex(0);
+              setRemainingPercent(100);
+              setSelectedValue(50);
+              setShowAnswer(false);
+              setShowResult(false);
+            }}
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
+          >
+            もう一度プレイ
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-8 bg-gradient-to-b from-blue-400 to-blue-600">
+      {/* 残りのパーセントを表示 */}
+      <div className="text-pink-500 font-bold whitespace-nowrap">
+        残り
+        <br />
+        {remainingPercent}%
+      </div>
+
       {/* クイズ質問パネル */}
       <div className="bg-white rounded-lg p-6 shadow-lg max-w-2xl w-full mb-8">
         <div className="flex items-center gap-4">
           <div>
-            <div className="text-lg font-bold mb-2">
-              {data[currentQuestionIndex].answer}
+            <div className="text-xl mb-2">
+              {data[currentQuestionIndex].question}
             </div>
-            <div className="text-xl">{data[currentQuestionIndex].question}</div>
+            {showAnswer && (
+              <div className="text-lg font-bold text-blue-600">
+                正解: {data[currentQuestionIndex].answer}
+                <div className="text-red-500">
+                  差:{" "}
+                  {Math.abs(
+                    selectedValue -
+                      parseInt(
+                        data[currentQuestionIndex].answer.replace("%", "")
+                      )
+                  )}
+                  %
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -41,26 +122,37 @@ export default function Home() {
       {/* 投票結果バー */}
       <div className="bg-white rounded-lg p-6 shadow-lg max-w-2xl w-full">
         <div className="flex items-center gap-4 mb-4">
-          <div className="text-2xl font-bold">23%</div>
-          <div
-            className="flex-1 h-8 bg-gradient-to-r from-yellow-400 to-red-500 rounded-full"
-            style={{ width: "23%" }}
-          >
-            <div className="h-full w-[1px] bg-blue-500"></div>
-          </div>
-          <div className="text-pink-500 font-bold">
-            残り
-            <br />
-            100
+          <div className="text-2xl font-bold">{selectedValue}%</div>
+          <div className="flex-1">
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={selectedValue}
+              onChange={(e) => setSelectedValue(parseInt(e.target.value))}
+              className="w-full h-8 rounded-full appearance-none bg-gradient-to-r from-yellow-400 to-red-500 cursor-pointer
+              [&::-webkit-slider-thumb]:appearance-none
+              [&::-webkit-slider-thumb]:h-12
+              [&::-webkit-slider-thumb]:w-4
+              [&::-webkit-slider-thumb]:rounded-full
+              [&::-webkit-slider-thumb]:bg-white
+              [&::-webkit-slider-thumb]:border-2
+              [&::-webkit-slider-thumb]:border-blue-500
+              [&::-webkit-slider-thumb]:cursor-pointer
+              [&::-webkit-slider-thumb]:shadow-lg"
+            />
           </div>
         </div>
 
         <button
           onClick={handleNextQuestion}
           className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
-          disabled={currentQuestionIndex === data.length - 1}
         >
-          {currentQuestionIndex === data.length - 1 ? "終了" : "回答する"}
+          {currentQuestionIndex === data.length - 1 && showAnswer
+            ? "終了"
+            : showAnswer
+            ? "次へ"
+            : "回答する"}
         </button>
       </div>
     </div>
