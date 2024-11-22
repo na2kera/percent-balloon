@@ -139,10 +139,8 @@ export default function Home() {
             </div>
           </div>
           <div className="text-center text-gray-600 mb-6">
-            {remainingPercent >= 80 && "素晴らしい予想力です！"}
-            {remainingPercent >= 50 &&
-              remainingPercent < 80 &&
-              "なかなかの予想力です！"}
+            {remainingPercent >= 80 && "素晴らしい！"}
+            {remainingPercent >= 50 && remainingPercent < 80 && "なかなか！"}
             {remainingPercent < 50 && "もう少し頑張りましょう！"}
           </div>
         </div>
