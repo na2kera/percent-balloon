@@ -13,16 +13,17 @@ export default function Home() {
   const [userAnswer, setUserAnswer] = useState<number | null>(null);
   const data = [
     {
-      question: "いちご狩りをしたことがある人は何%？",
-      answer: "23%",
+      question: "PeachTechの一年生の割合は何%？",
+      answer: "50%",
     },
     {
-      question: "すいませんけど吸いますって人は何%？",
-      answer: "10%",
+      question: "PeachTechの理工学部意外のメンバーの割合は何%？",
+      answer: "24%",
     },
     {
-      question: "居酒屋で皿あーらいする人は何%？",
-      answer: "60%",
+      question:
+        "PeachTechオリジナルのチュートリアル完走後、現在もプロダクト作りを続けている人の割合は何%？",
+      answer: "88%",
     },
   ];
 
@@ -138,10 +139,8 @@ export default function Home() {
             </div>
           </div>
           <div className="text-center text-gray-600 mb-6">
-            {remainingPercent >= 80 && "素晴らしい予想力です！"}
-            {remainingPercent >= 50 &&
-              remainingPercent < 80 &&
-              "なかなかの予想力です！"}
+            {remainingPercent >= 80 && "素晴らしい！"}
+            {remainingPercent >= 50 && remainingPercent < 80 && "なかなか！"}
             {remainingPercent < 50 && "もう少し頑張りましょう！"}
           </div>
         </div>
