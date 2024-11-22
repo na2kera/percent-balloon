@@ -13,16 +13,17 @@ export default function Home() {
   const [userAnswer, setUserAnswer] = useState<number | null>(null);
   const data = [
     {
-      question: "いちご狩りをしたことがある人は何%？",
-      answer: "23%",
+      question: "PeachTechの一年生の割合は何%？",
+      answer: "50%",
     },
     {
-      question: "すいませんけど吸いますって人は何%？",
-      answer: "10%",
+      question: "PeachTechの理工学部意外のメンバーの割合は何%？",
+      answer: "24%",
     },
     {
-      question: "居酒屋で皿あーらいする人は何%？",
-      answer: "60%",
+      question:
+        "PeachTechオリジナルのチュートリアル完走後、現在もプロダクト作りを続けている人の割合は何%？",
+      answer: "88%",
     },
   ];
 
